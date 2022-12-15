@@ -1,0 +1,87 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+public:
+    void solve(vector<int> A, vector<int> ans, vector<vector<int>> &result, int index, int sum, int target)
+    {
+        if (sum == target)
+        {
+            sort(ans.begin(), ans.end());
+            result.push_back(ans);
+            return;
+        }
+        if (sum > target)
+        {
+            return;
+        }
+        if (index >= A.size())
+        {
+            return;
+        }
+        sum += A[index];
+        ans.push_back(A[index]);
+        solve(A, ans, result, index + 1, sum, target);
+        sum -= A[index];
+        ans.pop_back();
+        while (index + 1 < A.size() && A[index] == A[index + 1])
+        {
+            index++;
+        }
+        solve(A, ans, result, index + 1, sum, target);
+    }
+    vector<vector<int>> combinationSum(vector<int> &A, int B)
+    {
+        sort(A.begin(), A.end());
+        vector<vector<int>> result;
+        vector<int> ans;
+        solve(A, ans, result, 0, 0, B);
+        sort(result.begin(), result.end());
+        return result;
+    }
+
+    vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
+    {
+        return combinationSum(candidates, target);
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+
+    int t = 1;
+    cin >> t;
+
+    // freopen ("output_gfg.txt", "w", stdout);
+
+    while (t--)
+    {
+        int n, k;
+        cin >> n >> k;
+        vector<int> candidates(n);
+        for (int i = 0; i < n; ++i)
+        {
+            cin >> candidates[i];
+        }
+        Solution obj;
+
+        vector<vector<int>> comb = obj.combinationSum2(candidates, k);
+        sort(comb.begin(), comb.end());
+        cout << "[ ";
+        for (int i = 0; i < comb.size(); i++)
+        {
+            cout << "[ ";
+            for (int j = 0; j < comb[i].size(); j++)
+            {
+                cout << comb[i][j] << " ";
+            }
+            cout << "]";
+        }
+        cout << " ]\n";
+    }
+    fclose(stdout);
+    return 0;
+}
