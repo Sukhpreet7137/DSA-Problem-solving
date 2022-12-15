@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        int N=words.size();
+        int priority[27];
+        int k=1;
+        for(int i=0;i<order.size();i++)
+        {
+            priority[order[i]-'a']=k;
+            k++;
+        }
+        for (int i = 0; i < N - 1; i++)
+        {
+            string s1 = words[i];
+            string s2 = words[i + 1];
+            int len = min(s1.size(), s2.size());
+            bool flag=false;
+            for (int ptr = 0; ptr < len; ptr++)
+            {
+                if (s1[ptr] != s2[ptr])
+                {
+                    if(priority[s2[ptr]-'a']>priority[s1[ptr]-'a'])
+                    {
+                        flag =true;
+                        break;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }  
+            if(!flag)
+            {
+// It means 2nd is subset of first and first starts with second
+                if(s1.size()>s2.size())
+                {
+                    return false;
+                }
+            } 
+        }
+        
+        return true;
+    }
+};
