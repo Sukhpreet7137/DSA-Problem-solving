@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+class Solution{
+    public:
+    void towerofhanoi(int N, int from, int aux, int to)
+    {
+        if(N==1)
+        {
+            cout<<"move disk "<<N<<" from rod "<<from<<" to rod "<<to<<endl;
+            return ;
+        }
+        towerofhanoi(N-1,from,to,aux);
+        cout<<"move disk "<<N<<" from rod "<< from<<" to rod "<<to<<endl;
+        towerofhanoi(N-1,aux,from,to);
+    }
+    long long toh(int N, int from, int to, int aux) {
+        towerofhanoi(N,from,aux,to);
+        return pow(2,N)-1;
+    }
+
+};
