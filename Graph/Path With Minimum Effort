@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int MinimumEffort(vector<vector<int>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        int xx[]={1,0,-1,0};
+        int yy[]={0,-1,0,1};
+        vector<vector<int>>dist(n,vector<int>(m,1e9));
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>q;
+        q.push({0,{0,0}});
+
+        while(!q.empty())
+        {
+            int dis=q.top().first;
+            int xcor=q.top().second.first;
+            int ycor=q.top().second.second;
+            
+            
+            if(xcor==n-1 && ycor==m-1)
+            {
+                return dis;
+            }
+            q.pop();
+            for(int k=0;k<4;k++)
+            {
+                int nxor=xcor+xx[k];
+                int nyor=ycor+yy[k];
+                
+                if(nxor>=0 && nxor<n && nyor>=0 && nyor<m)
+                {
+                    int neweffort=max(abs(grid[xcor][ycor]-grid[nxor][nyor]),dis);
+                    if(neweffort<dist[nxor][nyor])
+                    {
+                        dist[nxor][nyor]=neweffort;
+                        q.push({neweffort,{nxor,nyor}});
+                    }
+                    
+                }
+            }
+        }
+        
+        return -1;
+    }
+};
+
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n,m; cin>>n>>m;
+        vector<vector<int>> heights;
+       
+        for(int i=0; i<n; ++i){
+            vector<int> temp;
+            for(int j=0; j<m; ++j){
+                int x; cin>>x;
+                temp.push_back(x);
+            }
+            heights.push_back(temp);
+        }
+       
+        Solution obj;
+        cout<<obj.MinimumEffort(heights)<<"\n";
+    }
+    return 0;
+}
