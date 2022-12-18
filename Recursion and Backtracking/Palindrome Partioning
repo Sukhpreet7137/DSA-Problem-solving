@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool ispalindrome(string s,int st,int e)
+    {
+        while(st<=e)
+        {
+            if(s[st]!=s[e])
+            {
+                return false;
+            }
+            st++;
+            e--;
+        }
+        return true;
+    }
+    void solve(vector<string>&res,vector<vector<string>>&ans,string s,int index)
+    {
+        if(index==s.size())
+        {
+            ans.push_back(res);
+            return ;
+        }
+        for(int i=index;i<s.size();i++)
+        {
+            if(ispalindrome(s,index,i))
+            {
+                res.push_back(s.substr(index,i-index+1));
+                solve(res,ans,s,i+1);
+                res.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        vector<string>res;
+        vector<vector<string>>ans;
+        solve(res,ans,s,0);
+        return ans;
+    }
+};
