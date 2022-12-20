@@ -1,0 +1,168 @@
+#include<iostream>
+using namespace std;
+class Node
+{
+	public:
+	int data;
+	Node *next;
+
+	Node(int data)
+	{
+		this->data=data;
+		this->next=NULL;
+	}
+};
+
+// Traversing singly linked list
+
+void print(Node *head)
+{
+	Node *temp=head;
+	while (temp!=NULL)
+	{
+		cout<<temp->data<<" ";
+		temp=temp->next;
+	}
+	cout<<endl;
+}
+
+// Inserting at head in singly linked list
+
+void insertathead(Node *&head,Node *&tail,int data)
+{
+	Node *temp=new Node(data);
+	if (head==NULL)
+	{
+		head=temp;
+		tail=temp;
+	}
+	else
+	{
+		temp->next=head;
+		head=temp;
+	}
+}
+
+// Inserting at tail in singly linked list
+
+void insertattail(Node *&head,Node *&tail,int data)
+{
+	Node *temp=new Node(data);
+	if (head==NULL)
+	{
+		head=temp;
+		tail=temp;
+	}
+	else
+	{
+		tail->next=temp;
+		tail=temp;
+	}
+}
+
+// Inserting at any position in singly linked list
+
+void insertatany(Node *&head,Node *&tail,int data,int pos)
+{
+	Node *temp=new Node(data);
+	if (pos==1)
+	{
+		insertathead(head,tail,data);
+	}
+	else
+	{
+		Node *curr=head;
+		int cnt=1;
+		while (cnt<pos-1)
+		{
+			curr=curr->next;
+			cnt++;
+		}
+		if(curr->next==NULL)
+		{
+			insertattail(head,tail,data);
+		}
+		else
+		{
+			temp->next=curr->next;
+			curr->next=temp;
+		}
+	}
+
+}
+
+// Deleting any node in singly linked list
+
+void deletenode(Node *&head,Node *&tail,int pos)
+{
+	if (pos==1)
+	{
+		Node *temp=head;
+		head=head->next;
+		temp->next=NULL;
+
+		delete(temp);
+	}
+	else
+    {
+	Node *prev=NULL;
+	Node *curr=head;
+	int cnt=1;
+	while (cnt<pos)
+	{
+		prev=curr;
+		curr=curr->next;
+		cnt++;
+	}
+
+	prev->next=curr->next;
+	if(curr->next==NULL)
+	{
+		tail=prev;
+	}
+	curr->next=NULL;
+	delete(curr);
+}
+}
+void deletedata(Node *head,int data)
+{
+    Node *prev=NULL;
+    Node *curr=head;
+    while (curr->data!=data)
+    {
+        prev=curr;
+        curr=curr->next;
+    }
+    prev->next=curr->next;
+    curr->next=NULL;
+    
+}
+int main()
+{
+	Node *head=NULL;
+	Node *tail=NULL;
+	Node *n1=new Node(23);
+	head=n1;
+	tail=n1;
+	// print(head);
+	// cout<<head->data<<" "<<tail->data<<endl;
+	insertathead(head,tail,34);
+	// print(head);
+	// cout<<head->data<<" "<<tail->data<<endl;
+	insertattail(head,tail,12);
+	// print(head);
+	// cout<<head->data<<" "<<tail->data<<endl;
+
+	insertatany(head,tail,10,1);
+	// print(head);
+		print(head);
+deletedata(head,23);
+		print(head);
+	// // cout<<head->data<<" "<<tail->data<<endl;
+	// deletenode(head,tail,4);
+	// print(head);
+	// // print(head);
+	// cout<<head->data<<" "<<tail->data<<endl;
+	return 0;
+
+}
