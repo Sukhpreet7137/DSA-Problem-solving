@@ -1,0 +1,51 @@
+Node* divide(int N, Node *head){
+        Node *hs=NULL;
+        Node *he=NULL;
+        Node *Os=NULL;
+        Node *Oe=NULL;
+        while(head!=NULL)
+        {
+            if(head->data%2==0)
+            {
+                if(hs==NULL)
+                {
+                    hs=head;
+                    he=head;
+                    head=head->next;
+                }
+                else
+                {
+                    he->next=head;
+                    he=he->next;
+                    head=head->next;
+                }
+            }
+            else
+            {
+                if(Os==NULL)
+                {
+                    Os=head;
+                    Oe=head;
+                    head=head->next;
+                }
+                else
+                {
+                    Oe->next=head;
+                    Oe=Oe->next;
+                    head=head->next;
+                }
+            }
+        }
+        if(Os==NULL)
+        {
+            return hs;
+        }
+        if(hs==NULL)
+        {
+            return Os;
+        }
+        Oe->next=NULL;
+        he->next=Os;
+        return hs;
+        
+    }
