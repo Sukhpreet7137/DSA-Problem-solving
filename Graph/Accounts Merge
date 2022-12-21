@@ -1,0 +1,142 @@
+#include <bits/stdc++.h>
+using namespace std;
+class dis_joint
+{
+public:
+    vector<int> parent;
+    vector<int> rank;
+
+    dis_joint(int n)
+    {
+        for (int i = 0; i <= n; i++)
+        {
+            parent.push_back(i);
+            rank.push_back(0);
+        }
+    }
+    int u_parent(int v)
+    {
+        if (v == parent[v])
+            return v;
+
+        return parent[v] = u_parent(parent[v]);
+    }
+    void unin(int v1, int v2)
+    {
+        v1 = u_parent(v1);
+        v2 = u_parent(v2);
+        if (v1 == v2)
+            return;
+        if (rank[v1] > rank[v2])
+            parent[v2] = v1;
+        else if (rank[v2] > rank[v1])
+            parent[v1] = v2;
+        else
+        {
+            parent[v2] = v1;
+            rank[v1]++;
+        }
+    }
+};
+class Solution
+{
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>> &accounts)
+    {
+        int n = accounts.size();
+        dis_joint d1(n);
+        unordered_map<string, int> mp;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 1; j < accounts[i].size(); j++)
+            {
+                if (mp.find(accounts[i][j]) == mp.end())
+                {
+                    mp[accounts[i][j]] = i;
+                }
+                else
+                {
+                    d1.unin(mp[accounts[i][j]], i);
+                }
+            }
+        }
+        vector<string> temp[n];
+        for (auto itr : mp)
+        {
+            string temp1 = itr.first;
+            int val = itr.second;
+
+            temp[d1.u_parent(val)].push_back(temp1);
+        }
+
+        vector<vector<string>> ans;
+
+        for (int i = 0; i < n; i++)
+        {
+            if (temp[i].size() == 0)
+                continue;
+
+            sort(temp[i].begin(), temp[i].end());
+            vector<string> temp2;
+            temp2.push_back(accounts[i][0]);
+
+            for (int j = 0; j < temp[i].size(); j++)
+            {
+                temp2.push_back(temp[i][j]);
+            }
+
+            ans.push_back(temp2);
+        }
+
+        return ans;
+    }
+};
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        vector<vector<string>> accounts;
+
+        for (int i = 0; i < n; i++)
+        {
+            vector<string> temp;
+            int x;
+            cin >> x;
+
+            for (int j = 0; j < x; j++)
+            {
+                string s1;
+                cin >> s1;
+                temp.push_back(s1);
+            }
+            accounts.push_back(temp);
+        }
+
+        Solution obj;
+        vector<vector<string>> res = obj.accountsMerge(accounts);
+        sort(res.begin(), res.end());
+        cout << "[";
+        for (int i = 0; i < res.size(); ++i)
+        {
+            cout << "[";
+            for (int j = 0; j < res[i].size(); j++)
+            {
+                if (j != res[i].size() - 1)
+                    cout << res[i][j] << ","
+                         << " ";
+                else
+                    cout << res[i][j];
+            }
+            if (i != res.size() - 1)
+                cout << "], " << endl;
+            else
+                cout << "]";
+        }
+        cout << "]"
+             << endl;
+    }
+}
