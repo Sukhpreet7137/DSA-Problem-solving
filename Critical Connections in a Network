@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void dfs(int node, int parent,vector<int>&vis ,vector<int>&low,vector<int>&tim,int timer,vector<vector<int>>&adj,vector<vector<int>>&bridges){
+        cout<<node<<endl;
+        vis[node]=1;
+        low[node]=tim[node]=timer++;
+        for(auto it : adj[node]){
+            
+            if(it == parent)continue;
+            
+            if(!vis[it]){
+                
+                dfs(it,node,vis,low,tim,timer,adj,bridges);
+                low[node]=min(low[node],low[it]);
+                if(low[it]>tim[node]){
+                    bridges.push_back({node,it}); 
+                }
+            }
+            else{
+                cout<<" "<<node<<" "<<it<<endl;
+                low[node]=min(low[node],tim[it]);
+            }
+        }
+    }
+    
+        
+        vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<vector<int>>adj(n);
+        vector<vector<int>>bridges;
+        vector<int>vis(n,0); 
+        vector<int>low(n,-1);
+        vector<int>tim(n,-1);
+        int timer=0;
+        for(auto &x:connections)
+        {
+            adj[x[0]].push_back(x[1]);
+            adj[x[1]].push_back(x[0]);
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(vis[i]==false)
+                dfs(i,-1,vis,low,tim,timer,adj,bridges);
+        }
+        return bridges;
+    }
+};
