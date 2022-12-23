@@ -1,0 +1,49 @@
+  class Solution {
+  public:
+    // Function to find the number of islands.
+    void bfs(int i,int j,int n,int m,vector<vector<char>>& grid,vector<vector<int>>& vis)
+    {
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        vis[i][j]=1;
+        while(!q.empty())
+        {
+            int xc=q.front().first;
+            int yc=q.front().second;
+            q.pop();
+            for(int k=-1;k<=1;k++)
+            {
+                for(int l=-1;l<=1;l++)
+                {
+                    int newx=xc+k;
+                    int newy=yc+l;
+                    if(newx>=0 && newx<n && newy>=0 && newy<m && !vis[newx][newy] && grid[newx][newy]=='1')
+                    {
+                        q.push({newx,newy});
+                        vis[newx][newy]=1;
+                    }
+                }
+            }
+        }
+    }
+    int numIslands(vector<vector<char>>& grid)
+    {
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        int cnt=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                // cout<<grid[i][j]<<" "<<vis[i][j]<<endl;
+                if(vis[i][j]==0 && grid[i][j]=='1')
+                {
+                    bfs(i,j,n,m,grid,vis);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+};
