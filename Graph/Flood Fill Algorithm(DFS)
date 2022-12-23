@@ -1,0 +1,30 @@
+class Solution {
+public:
+    void dfs(int i,int j,int n,int m,vector<vector<int>>& vis,vector<vector<int>>&image,int oldColor,int newColor,int xx[],int yy[])
+    {
+        vis[i][j]=1;
+        image[i][j]=newColor;
+        for(int k=0;k<4;k++)
+        {
+            int newi=i+xx[k];
+            int newj=j+yy[k];
+            if(newi>=0 && newi<n && newj>=0 && newj<m && !vis[newi][newj] && image[newi][newj]==oldColor)
+            {
+                dfs(newi,newj,n,m,vis,image,oldColor,newColor,xx,yy);
+            }
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int oldColor=image[sr][sc];
+        if(oldColor==newColor)
+        return image;
+
+        int n=image.size();
+        int m=image[0].size();
+        int xx[]={1,0,-1,0};
+        int yy[]={0,-1,0,1};
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        dfs(sr,sc,n,m,vis,image,oldColor,newColor,xx,yy);
+        return image;
+    }
+};
