@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    void dfs(int i,int j,int n,int  m,vector<pair<int,int>>&res,vector<vector<int>>&grid,vector<vector<int>>&vis,int xx[],int yy[],int i0,int j0)
+    {
+        vis[i][j]=1;
+        res.push_back({i-i0,j-j0});
+        for(int k=0;k<4;k++)
+        {
+            int newi=i+xx[k];
+            int newj=j+yy[k];
+            if(newi>=0 && newi<n && newj>=0 && newj<m && !vis[newi][newj] && grid[newi][newj]==1)
+            {
+                dfs(newi,newj,n,m,res,grid,vis,xx,yy,i0,j0);
+            }
+        }
+    }
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        int xx[]={-1,0,1,0};
+        int yy[]={0,1,0,-1};
+        set<vector<pair<int,int>>>res;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(!vis[i][j] && grid[i][j]==1)
+                {
+                    vector<pair<int,int>>res1;
+                    dfs(i,j,n,m,res1,grid,vis,xx,yy,i,j);
+                    res.insert(res1);
+                }
+            }
+        }
+        return res.size();
+    }
+};
