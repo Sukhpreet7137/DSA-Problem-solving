@@ -1,0 +1,36 @@
+class MinStack {
+public:
+stack<int>s;
+stack<int>refer;
+    MinStack() {
+        
+    }
+    
+    void push(int a) {
+        s.push(a);
+        if(refer.empty() || refer.top()>=a)
+        {
+            refer.push(a);
+        }
+    }
+    
+    void pop() {
+        int ans=s.top();
+        s.pop();
+        if(refer.top()==ans)
+        refer.pop();
+    }
+    
+    int top() {
+        if(s.empty())
+        return -1;
+
+        return s.top();
+    }
+    
+    int getMin() {
+        if(s.size()==0)
+        return -1;
+        return refer.top();
+    }
+};
