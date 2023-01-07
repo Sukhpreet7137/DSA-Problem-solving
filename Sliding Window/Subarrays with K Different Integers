@@ -1,0 +1,47 @@
+class Solution {
+  public:
+    int subarrayuptokCount(vector<int> &arr, int N, int k)
+    {
+        unordered_map<int,int>mp;
+        int cnt=0;
+        int i=0;
+        int j=0;
+        while(j<N)
+        {
+            mp[arr[j]]++;
+            if(mp.size()<k)
+            {
+                cnt+=(j-i+1);
+                j++;
+            }
+            else if(mp.size()==k)
+            {
+                cnt+=(j-i+1);
+                j++;
+            }
+            else 
+            {
+                while(mp.size()>k)
+                {
+                    mp[arr[i]]--;
+                    if(mp[arr[i]]==0)
+                    {
+                        mp.erase(arr[i]);
+                    }
+                    i++;
+                }
+                if(mp.size()==k)
+                {
+                    cnt+=(j-i+1);
+                }
+                j++;
+            }
+        }
+        return cnt;
+    }
+    int subarrayCount(vector<int> &arr, int N, int k) {
+        int l=subarrayuptokCount(arr,N,k);
+        int m=subarrayuptokCount(arr,N,k-1);
+        return l-m;
+    }
+};
