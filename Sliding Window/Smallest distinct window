@@ -1,0 +1,42 @@
+class Solution{
+    public:
+    int findSubString(string str)
+    {
+        unordered_set<char>s;
+        int k=0;
+        for(auto it:str)
+        {
+            s.insert(it);
+        }
+        k=s.size();
+        unordered_map<char,int>mp;
+        int i=0;
+        int j=0;
+        int ans=INT_MAX;
+        int n=str.size();
+        while(j<n)
+        {
+            mp[str[j]]++;
+            if(mp.size()<k)
+            {
+                j++;
+            }
+            else if(mp.size()>=k)
+            {
+                ans=min(ans,j-i+1);
+                while(j-i+1>=k && mp.size()>=k)
+                {
+                    if(mp[str[i]]>1)
+                    {
+                        mp[str[i]]--;
+                        i++;
+                    }
+                    else break;
+                }
+                ans=min(ans,j-i+1);
+                j++;
+            }
+        }
+        return ans;
+    }
+};
