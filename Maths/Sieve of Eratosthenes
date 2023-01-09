@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+int N=90000000;
+bool arr[90000001];
+vector<int>ans;
+void sieve()
+{
+    for (int i=2;i<=N;i++)
+    {
+        arr[i]=true;
+    }
+    for (int i=2;i*i<=N;i++)
+    {
+        if (arr[i]==true)
+        {
+            for (int j=i*i;j<=N;j+=i)
+            {
+                arr[j]=false;
+            }
+        }
+           
+    }
+    for (int i=2;i<=N;i++)
+    {
+        if (arr[i]==true)
+        {
+            ans.push_back(i);
+        }
+    }
+    
+}
+int main()
+{
+    sieve();
+    int q;
+    cin>>q;
+    while (q--)
+    {
+        int n;
+        cin>>n;
+        cout<<ans[n-1]<<endl;
+    }
+    
+    return 0;
+}
