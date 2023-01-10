@@ -1,3 +1,5 @@
+//Product of Primes
+
 #include<bits/stdc++.h>
 using namespace std;
 int n=1000000;
